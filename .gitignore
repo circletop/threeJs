@@ -5,3 +5,10 @@ dist
 # 依赖锁定
 package-lock.json
 yarn-lock.json
+
+# 缓存
+
+.cache 
+.git
+.idea
+.vscode
