@@ -1,0 +1,7 @@
+# 开发
+node_modules
+# 打包目录
+dist
+# 依赖锁定
+package-lock.json
+yarn-lock.json

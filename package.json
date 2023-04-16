@@ -1,0 +1,17 @@
+{
+  "name": "01-thressjs-base",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "gsap": "^3.11.5",
+    "parcel-bundler": "^1.12.5",
+    "three": "^0.151.2"
+  }
+}
