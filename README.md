@@ -20,6 +20,9 @@ ThressJS
         ├─ ...
 
 ```
+## 依赖说明
 
-
-
+```bash
+npm i gsap --save  # 动画库
+npm i dat.gui --save  # gui 开发调试
+```
