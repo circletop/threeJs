@@ -2,7 +2,15 @@ import * as THREE from 'three'
 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
-// 目标：利用bufferGeometry 创建几何体
+//导入动画库
+import gsap from 'gsap'
+// 导入dat.gui
+import * as dat from 'dat.gui'
+const gui = new dat.GUI()
+
+
+// 目标：利用gui 进行开发调试
+// 说明： 适用gui 来改变cube 属性的时候需要先关闭动画，和右键监听，否者不生效
 
 // 场景window.innerWidth / window.innerHeight
 const scene = new THREE.Scene()
@@ -14,27 +22,18 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 camera.position.set(0, 0, 10)
 scene.add(camera)
 
-// 添加几何体
-const geometry = new THREE.BufferGeometry()
-const vertices = new Float32Array([
-  -1.0, -1.0, 1.0,
-  1.0, -1.0, 1.0,
-  1.0, 1.0, 1.0,
-
-  1.0, 1.0, 1.0,
-  -1.0, 1.0, 1.0,
-  -1.0, -1.0, 1.0
-
-])
-geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
-
+// 添加物体
+const geometry = new THREE.BoxGeometry(1, 1, 1)
 const material = new THREE.MeshBasicMaterial({ color: '#3366ff' })
-
-const mesh = new THREE.Mesh(geometry, material);
-
-scene.add(mesh)
-
 // 根据几何体和材质创建物体
+const cube = new THREE.Mesh(geometry, material)
+// 修改物体的位置
+// cube.position.set(2, 3, 4)
+cube.position.x = 0
+// 旋转log
+// cube.rotation.x = Math.PI / 3
+
+scene.add(cube)
 
 // 初始化渲染器
 const render = new THREE.WebGL1Renderer({ antialias: true })
@@ -57,6 +56,49 @@ const axesHelper = new THREE.AxesHelper(6)
 
 scene.add(axesHelper)
 
+// 设置动画
+const animation = () => {
+  return gsap.to(cube.position, {
+    x: 5,
+    duration: 10,
+    ease: 'power2.inOut',
+    repeat: -1,
+    yoyo: true,
+    onStart: () => {
+      console.log('动画开始了');
+    },
+    onComplete: () => {
+      console.log('结束了');
+    }
+  })
+
+}
+// gsap.to(cube.rotation, { x: Math.PI, duration: 10 })
+// document.addEventListener('dblclick', () => {
+//   if (animation.isActive()) {
+//     animation.pause()
+//   } else {
+//     animation.resume()
+//   }
+// })
+
+// 监听移动
+gui.add(cube.position, 'x', 0.1, 5, 0.1).name('x轴').onChange((value) => {
+  console.log('change:' + value);
+})
+// 监听颜色
+const params = {
+  color: '#3366ff',
+  fn: animation
+}
+gui.addColor(params, 'color').onChange((value) => {
+  cube.material.color.set(value)
+})
+// 添加事件
+gui.add(params, 'fn')
+// 添加文件夹
+const folder = gui.addFolder('文件夹')
+folder.add(cube.material, 'wireframe')
 
 function animate() {
 
