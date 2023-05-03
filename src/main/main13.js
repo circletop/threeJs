@@ -2,7 +2,7 @@ import * as THREE from 'three'
 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
-// 目标：标准网格材质
+// 目标：几何体材质及纹理属性
 
 // 场景window.innerWidth / window.innerHeight
 const scene = new THREE.Scene()
@@ -24,7 +24,7 @@ girls.center.set(0.5, 0.5)
 
 // 添加几何体
 const geometry = new THREE.BoxGeometry(2, 2, 2)
-const mesh = new THREE.MeshStandardMaterial({ map: girls })
+const mesh = new THREE.MeshBasicMaterial({ map: girls })
 const cube = new THREE.Mesh(geometry, mesh)
 scene.add(cube)
 
