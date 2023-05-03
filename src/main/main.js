@@ -2,7 +2,7 @@ import * as THREE from 'three'
 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
-// 目标：利用bufferGeometry 创建炫酷科技感效果
+// 目标：几何体材质及纹理属性
 
 // 场景window.innerWidth / window.innerHeight
 const scene = new THREE.Scene()
@@ -11,37 +11,22 @@ const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 
 // 设置相机位置
-camera.position.set(0, 0, 10)
+camera.position.set(5, 5, 10)
 scene.add(camera)
 
+// 导入纹理加载器
+const textureLoader = new THREE.TextureLoader()
+const girls = textureLoader.load('./imgs/1.jpeg')
+// girls.offset.setX(0.5)
+// girls.offset.y = 0.5
+girls.rotation = Math.PI / 2
+girls.center.set(0.5, 0.5)
+
 // 添加几何体
-
-for (let i = 0; i < 50; i++) {
-  const geometry = new THREE.BufferGeometry()
-  const positonArr = new Float32Array(18)
-  //创建一个三角形需要三个顶点 每个顶点需要三个值
-
-  const arr = [
-    -i, -i, i,
-    i, -i, i,
-    i, i, i,
-    i, i, i
-    - i, i, i,
-    -i, -i, i
-  ]
-  for (let index = 0; index < arr.length; index++) {
-    positonArr[index] = arr[index]
-  }
-
-  console.log(positonArr);
-  geometry.setAttribute('position', new THREE.BufferAttribute(positonArr, 3))
-  let color = new THREE.Color(Math.random(), Math.random(), Math.random())
-  const material = new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.9 })
-
-  const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh)
-
-}
+const geometry = new THREE.BoxGeometry(2, 2, 2)
+const mesh = new THREE.MeshBasicMaterial({ map: girls })
+const cube = new THREE.Mesh(geometry, mesh)
+scene.add(cube)
 
 
 // 根据几何体和材质创建物体
@@ -59,10 +44,10 @@ const controls = new OrbitControls(camera, render.domElement)
 controls.enableDamping = true
 controls.update()
 
-// // 添加坐标轴辅助器 
-// const axesHelper = new THREE.AxesHelper(6)
+// 添加坐标轴辅助器 
+const axesHelper = new THREE.AxesHelper(6)
 
-// scene.add(axesHelper)
+scene.add(axesHelper)
 
 
 function animate() {
